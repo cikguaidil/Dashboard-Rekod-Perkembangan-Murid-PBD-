@@ -1,5 +1,3 @@
-# Dashboard-Rekod-Perkembangan-Murid-PBD-
-PBD SK Bukit Kuchai
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -161,16 +159,11 @@ PBD SK Bukit Kuchai
                         </button>
                     </div>
                     <select id="filterSubjek" onchange="handleFilterChange()" class="w-full bg-pink-50 border border-pink-300 text-gray-800 text-xs sm:text-sm rounded-lg focus:ring-magenta-500 focus:border-magenta-500 p-2 font-semibold">
-                        <!-- Populated dynamically from Google Sheet / State -->
+                        <option value="PENDIDIKAN JASMANI">Pendidikan Jasmani</option>
                         <option value="BAHASA MELAYU">Bahasa Melayu</option>
                         <option value="BAHASA INGGERIS">Bahasa Inggeris</option>
                         <option value="MATEMATIK">Matematik</option>
                         <option value="SAINS">Sains</option>
-                        <option value="PENDIDIKAN ISLAM">Pendidikan Islam</option>
-                        <option value="PENDIDIKAN JASMANI">Pendidikan Jasmani</option>
-                        <option value="PENDIDIKAN KESIHATAN">Pendidikan Kesihatan</option>
-                        <option value="SEJARAH">Sejarah</option>
-                        <option value="REKA BENTUK DAN TEKNOLOGI">RBT</option>
                     </select>
                 </div>
 
@@ -336,15 +329,15 @@ PBD SK Bukit Kuchai
 
         <!-- ================= TAB 2: BORANG PENTAKSIRAN SP ================= -->
         <section id="tab-assessment" class="tab-content hidden space-y-6">
-            <div class="bg-white p-5 rounded-2xl border border-pink-200 shadow-sm">
-                <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+            <div class="bg-white p-5 rounded-2xl border border-pink-200 shadow-sm space-y-4">
+                <div class="flex flex-wrap justify-between items-center gap-4">
                     <div>
                         <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                             <i class="fa-solid fa-clipboard-check text-magenta-600"></i>
                             Borang Penilaian Standard Pembelajaran (SP)
                         </h2>
                         <p class="text-xs text-gray-500">
-                            Ketik butang 1 hingga 6 bagi setiap SP murid. Hasil Rumusan TP dikira di penghujung kolum.
+                            Saring paparan mengikut Tema, Tajuk, SK atau SP. Ketik butang 1 hingga 6 bagi setiap SP murid untuk menilai TP.
                         </p>
                     </div>
 
@@ -358,17 +351,50 @@ PBD SK Bukit Kuchai
                     </div>
                 </div>
 
-                <!-- SP Selection Info Banner -->
-                <div id="spListSummary" class="bg-pink-50/70 border border-pink-200 p-3 rounded-xl mb-4 text-xs text-gray-700 flex flex-wrap gap-4 justify-between items-center">
+                <!-- Penapis Terperinci (Tema, Tajuk/Bidang, SK, SP) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-pink-50/80 p-3.5 rounded-xl border border-pink-200">
                     <div>
-                        <span class="font-bold text-pink-800">Tema/Bidang/SK:</span> <span id="lblTemaBidang">Mendengar dan Tutur</span>
+                        <label class="block text-2xs font-bold text-pink-900 uppercase mb-1">1. Pilih Tema</label>
+                        <select id="filterAssessmentTema" onchange="handleAssessmentFilterChange('tema')" class="w-full bg-white border border-pink-300 text-gray-800 text-xs rounded-lg p-2 font-semibold focus:ring-magenta-500">
+                            <option value="ALL">-- Semua Tema --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-2xs font-bold text-pink-900 uppercase mb-1">2. Pilih Tajuk / Bidang</label>
+                        <select id="filterAssessmentTajuk" onchange="handleAssessmentFilterChange('tajuk')" class="w-full bg-white border border-pink-300 text-gray-800 text-xs rounded-lg p-2 font-semibold focus:ring-magenta-500">
+                            <option value="ALL">-- Semua Tajuk --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-2xs font-bold text-pink-900 uppercase mb-1">3. Standard Kandungan (SK)</label>
+                        <select id="filterAssessmentSK" onchange="handleAssessmentFilterChange('sk')" class="w-full bg-white border border-pink-300 text-gray-800 text-xs rounded-lg p-2 font-semibold focus:ring-magenta-500">
+                            <option value="ALL">-- Semua SK --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-2xs font-bold text-pink-900 uppercase mb-1">4. Standard Pembelajaran (SP)</label>
+                        <select id="filterAssessmentSP" onchange="handleAssessmentFilterChange('sp')" class="w-full bg-white border border-pink-300 text-gray-800 text-xs rounded-lg p-2 font-semibold focus:ring-magenta-500">
+                            <option value="ALL">-- Semua SP --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SP Selection Info Banner -->
+                <div id="spListSummary" class="bg-pink-100/60 border border-pink-300 p-3 rounded-xl text-xs text-gray-700 flex flex-wrap gap-4 justify-between items-center">
+                    <div class="space-y-1">
+                        <div><span class="font-bold text-pink-900">Tema Aktif:</span> <span id="lblTema" class="text-magenta-800 font-semibold">Semua Tema</span></div>
+                        <div><span class="font-bold text-pink-900">Tajuk / Bidang:</span> <span id="lblBidang" class="text-magenta-800 font-semibold">Semua Tajuk</span></div>
+                        <div><span class="font-bold text-pink-900">Standard Kandungan (SK):</span> <span id="lblSK" class="text-magenta-800 font-semibold">Semua SK</span></div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="addNewSubjekModal()" class="bg-pink-200 hover:bg-pink-300 text-pink-800 text-xs font-bold py-1 px-2.5 rounded-lg transition flex items-center gap-1">
+                        <button onclick="resetAssessmentFilters()" class="text-2xs bg-pink-200 hover:bg-pink-300 text-pink-900 font-bold py-1.5 px-3 rounded-lg transition flex items-center gap-1">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Penapis
+                        </button>
+                        <button onclick="addNewSubjekModal()" class="bg-pink-200 hover:bg-pink-300 text-pink-800 text-xs font-bold py-1.5 px-3 rounded-lg transition flex items-center gap-1">
                             <i class="fa-solid fa-plus text-[10px]"></i> Subjek Baru
                         </button>
                         <div>
-                            <span class="font-bold text-pink-800">Jumlah SP Terlibat:</span> <span id="lblTotalSP" class="font-extrabold text-magenta-600">0 SP</span>
+                            <span class="font-bold text-pink-900">Dipaparkan:</span> <span id="lblTotalSP" class="font-extrabold text-magenta-600 bg-white px-2.5 py-1 rounded-md border border-pink-300">0 SP</span>
                         </div>
                     </div>
                 </div>
@@ -380,7 +406,6 @@ PBD SK Bukit Kuchai
                             <tr>
                                 <th class="p-3 w-10 text-center">Bil</th>
                                 <th class="p-3 min-w-[220px]">Nama Murid (A-Z)</th>
-                                <!-- Dynamic Columns for SPs will be generated here -->
                                 <th id="spHeaderContainer" class="p-0" colspan="1">
                                     <!-- Dynamic headers generated in JS -->
                                 </th>
@@ -499,7 +524,6 @@ PBD SK Bukit Kuchai
                 <div class="flex flex-wrap items-center gap-2">
                     <select id="reportStudentSelect" onchange="generatePrintReport()" class="bg-pink-50 border border-pink-300 text-xs rounded-lg p-2 font-semibold">
                         <option value="ALL">-- SEMUA MURID KELAS --</option>
-                        <!-- Dynamic Student List Options -->
                     </select>
 
                     <button onclick="window.print()" class="bg-magenta-600 hover:bg-magenta-700 text-white text-xs sm:text-sm font-bold py-2 px-4 rounded-lg shadow transition flex items-center gap-2">
@@ -543,6 +567,29 @@ PBD SK Bukit Kuchai
                     </div>
                 </div>
 
+                <!-- Manual Paste or CSV Upload Fallback -->
+                <div class="p-4 bg-white rounded-xl border border-pink-200 space-y-3">
+                    <h3 class="text-sm font-bold text-pink-900 flex items-center gap-2">
+                        <i class="fa-solid fa-paste"></i> Tampal (Paste) Data CSV Secara Manual
+                    </h3>
+                    <p class="text-xs text-gray-600">
+                        Sekiranya pautan automatik disekat, anda boleh copy & paste kandungan CSV dari Google Sheet di sini:
+                    </p>
+                    <textarea id="rawCsvText" rows="4" placeholder="Nama Murid, Tahun, Kelas, Subjek, Standard Pembelajaran, TP&#10;Ahmad, 1, INOVATIF, PENDIDIKAN JASMANI, SP 1.1.1, 4" class="w-full text-xs font-mono bg-pink-50 border border-pink-300 rounded-lg p-2 text-gray-800"></textarea>
+                    
+                    <div class="flex flex-wrap gap-2 justify-between items-center">
+                        <div>
+                            <input type="file" id="csvFileInput" accept=".csv" class="hidden" onchange="handleFileUpload(event)">
+                            <button onclick="document.getElementById('csvFileInput').click()" class="bg-pink-100 hover:bg-pink-200 text-pink-800 text-xs font-bold py-2 px-3 rounded-lg border border-pink-300 transition">
+                                <i class="fa-solid fa-file-csv mr-1"></i> Pilih Fail CSV
+                            </button>
+                        </div>
+                        <button onclick="parseManualCsvText()" class="bg-magenta-700 hover:bg-magenta-800 text-white text-xs font-bold py-2 px-4 rounded-lg shadow transition">
+                            <i class="fa-solid fa-check mr-1"></i> Proses Data CSV Ini
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Backup & Reset -->
                 <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
                     <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
@@ -568,40 +615,36 @@ PBD SK Bukit Kuchai
     </footer>
 
     <script>
-        // ================= APPLICATION STATE & INITIAL DATA =================
+        // Default Google Sheet CSV URL
         const SPREADSHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1PYyDVG9lsLiw8Ufs_ZBHUoyL8lLWw7IsQknEuEsLeFs/export?format=csv";
 
-        // Default Curriculum (Fallbacks if sheet is empty or offline)
+        // Default Curriculum Fallback
         const DEFAULT_CURRICULUM = {
+            "PENDIDIKAN JASMANI": {
+                "1": [
+                    { id: "pj1", code: "SP 1.1.1", desc: "Melakukan pergerakan yang melibatkan kesedaran tubuh", sk: "1.1 Meneroka pelbagai corak pergerakan berdasarkan konsep pergerakan.", bidang: "1. Kemahiran Pergerakan ( Domain Psikomotor )", tema: "Kemahiran : Konsep Pergerakan" },
+                    { id: "pj2", code: "SP 1.1.2", desc: "Melakukan pergerakan yang melibatkan kesedaran ruang diri, ruang am dan batasan ruang", sk: "2.1 Menggunakan pengetahuan konsep pergerakan semasa meneroka pelbagai corak pergerakan.", bidang: "2. Aplikasi Pengetahuan Dalam Pergerakan ( Domain Kognitif )", tema: "Kemahiran : Konsep Pergerakan" },
+                    { id: "pj3", code: "SP 1.1.3", desc: "Melakukan pergerakan", sk: "5.1 Mematuhi dan mengamalkan elemen", bidang: "5. Kesukanan ( Domain Afektif )", tema: "Kemahiran : Konsep Pergerakan" },
+                    { id: "pj4", code: "SP 1.1.4", desc: "Menukar arah dari hadapan", sk: "1.2 Melakukan pelbagai pergerakan lokomotor", bidang: "1. Kemahiran Pergerakan ( Domain Psikomotor )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." },
+                    { id: "pj5", code: "SP 1.1.5", desc: "Melakukan pergerakan", sk: "1.3 Melakukan pelbagai pergerakan bukan lokomotor", bidang: "1. Kemahiran Pergerakan ( Domain Psikomotor )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." },
+                    { id: "pj6", code: "SP 1.1.6", desc: "Melakukan pergerakan yang berbeza kelajuan berdasarkan tempo, irama dan isyarat.", sk: "2.2 Menggunakan pengetahuan konsep pergerakan dan prinsip mekanik dalam pergerakan lokomotor dan bukan lokomotor.", bidang: "2. Aplikasi Pengetahuan Dalam Pergerakan ( Domain Kognitif )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." },
+                    { id: "pj7", code: "SP 1.1.7", desc: "Melakukan pergerakan yang mengikut tempo", sk: "5.1 Mematuhi dan mengamalkan elemen", bidang: "5. Kesukanan ( Domain Afektif )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." },
+                    { id: "pj8", code: "SP 2.1.1", desc: "Menyatakan bentuk badan", sk: "5.2 Menunjukkan keyakinan dan tanggungjawab", bidang: "5. Kesukanan ( Domain Afektif )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." },
+                    { id: "pj9", code: "SP 2.1.2", desc: "Mengenal pasti ruang diri", sk: "5.3 Berkomunikasi dalam pelbagai cara semasa", bidang: "5. Kesukanan ( Domain Afektif )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." },
+                    { id: "pj10", code: "SP 2.1.3", desc: "Mengenal pasti ruang am", sk: "5.4 Membentuk kumpulan dan bekerjasama", bidang: "5. Kesukanan ( Domain Afektif )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." }
+                ]
+            },
             "BAHASA MELAYU": {
                 "1": [
                     { id: "sp1", code: "SP 1.1.1", desc: "Mendengar dan menyebut perkataan, frasa dan ayat", sk: "SK 1.1", bidang: "Mendengar & Tutur", tema: "Kemahiran Asas" },
                     { id: "sp2", code: "SP 2.1.1", desc: "Membaca sebutan betul dan intonasi sesuai", sk: "SK 2.1", bidang: "Membaca", tema: "Kemahiran Asas" },
                     { id: "sp3", code: "SP 3.1.1", desc: "Menulis perkataan dan frasa secara mekanis", sk: "SK 3.1", bidang: "Menulis", tema: "Kemahiran Asas" },
                     { id: "sp4", code: "SP 5.1.1", desc: "Memahami dan menggunakan kata nama mengikut konteks", sk: "SK 5.1", bidang: "Seni Bahasa", tema: "Tata-bahasa" }
-                ],
-                "4": [
-                    { id: "sp1", code: "SP 1.1.1", desc: "Mendengar, mengecam dan menyebut frasa", sk: "SK 1.1", bidang: "Mendengar", tema: "Masyarakat" },
-                    { id: "sp2", code: "SP 2.2.1", desc: "Membaca dan memahami bahan grafik", sk: "SK 2.2", bidang: "Membaca", tema: "Masyarakat" }
-                ]
-            },
-            "PENDIDIKAN JASMANI": {
-                "1": [
-                    { id: "pj1", code: "SP 1.1.1", desc: "Melakukan pergerakan yang melibatkan kesedaran tubuh badan", sk: "1.1 Meneroka pelbagai corak pergerakan berdasarkan konsep pergerakan.", bidang: "1. Kemahiran Pergerakan ( Domain Psikomotor )", tema: "Kemahiran : Konsep Pergerakan" },
-                    { id: "pj2", code: "SP 1.1.2", desc: "Melakukan pergerakan yang melibatkan kesedaran ruang diri, ruang am dan batasan ruang", sk: "2.1 Menggunakan pengetahuan konsep pergerakan semasa meneroka pelbagai corak pergerakan.", bidang: "2. Aplikasi Pengetahuan Dalam Pergerakan ( Domain Kognitif )", tema: "Kemahiran : Konsep Pergerakan" },
-                    { id: "pj3", code: "SP 1.1.6", desc: "Melakukan pergerakan yang berbeza kelajuan berdasarkan tempo, irama dan isyarat.", sk: "2.2 Menggunakan pengetahuan konsep pergerakan dan prinsip mekanik dalam pergerakan lokomotor dan bukan lokomotor.", bidang: "2. Aplikasi Pengetahuan Dalam Pergerakan ( Domain Kognitif )", tema: "Kemahiran : Pergerakan Asas - Kemahiran Lokomotor Dan Bukan Lokomotor." }
-                ]
-            },
-            "MATEMATIK": {
-                "1": [
-                    { id: "sp1", code: "SP 1.1.1", desc: "Membilang dan menamakan nombor bulat hingga 100", sk: "SK 1.1", bidang: "Nombor & Operasi", tema: "Nombor Bulat" },
-                    { id: "sp2", code: "SP 2.1.1", desc: "Menambah dua nombor tanpa mengumpul semula", sk: "SK 2.1", bidang: "Operasi Asas", tema: "Tambah & Tolak" },
-                    { id: "sp3", code: "SP 3.1.1", desc: "Mengenal pasti nilai wang kertas dan syiling", sk: "SK 3.1", bidang: "Wang", tema: "Pengurusan Kewangan" }
                 ]
             }
         };
 
-        // Seed initial students
+        // Initial Seed Students
         const INITIAL_STUDENTS = [
             { id: "m1", name: "ADAM HARIS BIN ZULKIFLI", tahun: "1", kelas: "INOVATIF" },
             { id: "m2", name: "AINA SOFEA BINTI MOHD FAIZ", tahun: "1", kelas: "INOVATIF" },
@@ -609,18 +652,22 @@ PBD SK Bukit Kuchai
             { id: "m4", name: "FARAH DIANA BINTI KHALID", tahun: "1", kelas: "INOVATIF" },
             { id: "m5", name: "MUHAMMAD DANISH BIN IMRAN", tahun: "1", kelas: "INOVATIF" },
             { id: "m6", name: "NUR AISYAH BINTI SYAHMI", tahun: "1", kelas: "KREATIF" },
-            { id: "m7", name: "RAYYAN MIKHAIL BIN AFIQ", tahun: "1", kelas: "KREATIF" },
-            { id: "m8", name: "BATRISYIA QISTINA BINTI HAKIM", tahun: "4", kelas: "INOVATIF" },
-            { id: "m9", name: "MUHAMMAD KHAIRUL BIN HASSAN", tahun: "4", kelas: "INOVATIF" },
-            { id: "m10", name: "NURUL IMAN BINTI RAZAK", tahun: "4", kelas: "INOVATIF" }
+            { id: "m7", name: "RAYYAN MIKHAIL BIN AFIQ", tahun: "1", kelas: "KREATIF" }
         ];
 
         // Global State
         let appData = {
             students: [],
-            assessments: {}, // Key: `${studentId}_${subjek}_${fasa}` -> { spScores: {spId: tpValue}, markah: number }
+            assessments: {}, 
             curriculum: DEFAULT_CURRICULUM,
-            customSubjects: [] // Stores manually added subject names
+            customSubjects: []
+        };
+
+        let assessmentFilters = {
+            tema: 'ALL',
+            tajuk: 'ALL',
+            sk: 'ALL',
+            sp: 'ALL'
         };
 
         let barChartInstance = null;
@@ -629,42 +676,32 @@ PBD SK Bukit Kuchai
 
         window.onload = function() {
             loadDataFromLocal();
-            // Initial sync from Google Sheet
             syncDataFromGoogleSheet(false);
-            // Enable auto sync loop default
             toggleAutoSync(true);
             updateUI();
         };
 
         function loadDataFromLocal() {
-            const saved = localStorage.getItem('sk_bukit_kuchai_pbd_data_v2');
+            const saved = localStorage.getItem('sk_bukit_kuchai_pbd_data_v3');
             if (saved) {
                 try {
                     appData = JSON.parse(saved);
                     if (!appData.curriculum) appData.curriculum = DEFAULT_CURRICULUM;
+                    if (!appData.students || appData.students.length === 0) appData.students = INITIAL_STUDENTS;
                 } catch(e) {
                     console.error("Error loading local storage:", e);
                     appData.students = INITIAL_STUDENTS;
+                    appData.curriculum = DEFAULT_CURRICULUM;
                 }
             } else {
                 appData.students = INITIAL_STUDENTS;
-                seedDummyAssessments();
+                appData.curriculum = DEFAULT_CURRICULUM;
             }
         }
 
-        function seedDummyAssessments() {
-            appData.students.forEach(st => {
-                const key1 = `${st.id}_BAHASA MELAYU_PERTENGAHAN TAHUN`;
-                appData.assessments[key1] = {
-                    spScores: { "sp1": 4, "sp2": 5, "sp3": 4, "sp4": 3 },
-                    markah: parseInt(st.tahun) >= 4 ? 78 : null
-                };
-            });
-        }
-
         function saveAllDataToLocal() {
-            localStorage.setItem('sk_bukit_kuchai_pbd_data_v2', JSON.stringify(appData));
-            showToast("Maklumat berjaya disimpan ke memori!");
+            localStorage.setItem('sk_bukit_kuchai_pbd_data_v3', JSON.stringify(appData));
+            showToast("Maklumat berjaya disimpan!");
         }
 
         function showToast(msg) {
@@ -686,7 +723,7 @@ PBD SK Bukit Kuchai
             if (enable) {
                 autoSyncTimer = setInterval(() => {
                     syncDataFromGoogleSheet(false);
-                }, 30000); // 30 seconds poll
+                }, 30000);
             }
         }
 
@@ -694,7 +731,15 @@ PBD SK Bukit Kuchai
             const syncIcon = document.getElementById('syncIcon');
             if (syncIcon) syncIcon.classList.add('fa-spin');
 
-            const csvUrl = document.getElementById('sheetCsvUrl')?.value || SPREADSHEET_CSV_URL;
+            let csvUrl = document.getElementById('sheetCsvUrl')?.value.trim() || SPREADSHEET_CSV_URL;
+
+            // Normalize Sheet URLs to pub / export csv endpoint
+            if (csvUrl.includes('docs.google.com/spreadsheets') && !csvUrl.includes('export?format=csv') && !csvUrl.includes('pub?output=csv')) {
+                const sheetIdMatch = csvUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
+                if (sheetIdMatch && sheetIdMatch[1]) {
+                    csvUrl = `https://docs.google.com/spreadsheets/d/${sheetIdMatch[1]}/export?format=csv`;
+                }
+            }
 
             Papa.parse(csvUrl, {
                 download: true,
@@ -705,93 +750,196 @@ PBD SK Bukit Kuchai
                     if (results.data && results.data.length > 0) {
                         processGoogleSheetData(results.data);
                         if (isManual) showToast("Data Google Sheets berjaya diselaraskan!");
+                    } else if (isManual) {
+                        showToast("Tiada data ditemui dalam Google Sheet.");
                     }
                 },
                 error: function(err) {
                     if (syncIcon) syncIcon.classList.remove('fa-spin');
-                    if (isManual) console.warn("Could not fetch CSV directly.", err);
+                    if (isManual) {
+                        alert("Gagal memuat turun Google Sheet secara terus. Sila pastikan pautan Google Sheet disetkan kepada 'Anyone with the link can view' & 'Publish to web'. Anda juga boleh tampal kandungan CSV di tab 'Tetapan Database'.");
+                    }
                 }
             });
         }
 
+        function parseManualCsvText() {
+            const text = document.getElementById('rawCsvText')?.value.trim();
+            if (!text) {
+                alert("Sila masukkan kandungan CSV terlebih dahulu.");
+                return;
+            }
+
+            Papa.parse(text, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        processGoogleSheetData(results.data);
+                        showToast("Data CSV manual berjaya diproses!");
+                    } else {
+                        alert("Gagal membaca format CSV.");
+                    }
+                }
+            });
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        processGoogleSheetData(results.data);
+                        showToast("Fail CSV berjaya dimuat naik & diselaraskan!");
+                    } else {
+                        alert("Fail CSV kosong atau format tidak sah.");
+                    }
+                }
+            });
+        }
+
+        // Helper to extract value from row with flexible candidate key names
+        function getColVal(row, candidates) {
+            if (!row) return '';
+            const keys = Object.keys(row);
+            for (let candidate of candidates) {
+                const cleanCandidate = candidate.toLowerCase().replace(/[^a-z0-9]/g, '');
+                for (let key of keys) {
+                    const cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    if (cleanKey === cleanCandidate) {
+                        return (row[key] !== undefined && row[key] !== null) ? String(row[key]).trim() : '';
+                    }
+                }
+            }
+            return '';
+        }
+
         function processGoogleSheetData(rows) {
-            let updatedStudentsCount = 0;
+            if (!rows || rows.length === 0) return;
+
+            let newStudentsCount = 0;
+            let newSpCount = 0;
 
             rows.forEach(row => {
-                // Parse Headers dynamically
-                const nama = (row['Nama Murid'] || row['NAMA MURID'] || row['Nama'] || row['NAMA'] || '').trim();
-                const tahun = (row['TAHUN'] || row['Tahun'] || '').trim().replace('Tahun', '').trim();
-                const kelas = (row['KELAS'] || row['Kelas'] || '').trim().toUpperCase();
-                const subjek = (row['SUBJEK'] || row['Subjek'] || row['MATA PELAJARAN'] || 'BAHASA MELAYU').trim().toUpperCase();
+                // Parse student details
+                const nama = getColVal(row, ['Nama Murid', 'Nama', 'NAMA MURID', 'NAMA', 'Student Name', 'Murid']);
+                let tahunRaw = getColVal(row, ['Tahun', 'TAHUN', 'Darjah', 'Tingkatan', 'Year']);
+                let tahun = tahunRaw.replace(/[^0-9]/g, '');
+                if (!tahun) tahun = '1';
 
-                const tema = (row['TEMA'] || row['Tema'] || 'ASAS').trim();
-                const bidang = (row['TAJUK'] || row['BIDANG'] || row['Tajuk'] || row['Bidang'] || 'UMUM').trim();
-                const sk = (row['STANDARD KANDUNGAN (SK)'] || row['STANDARD KANDUNGAN'] || row['SK'] || '').trim();
-                const sp = (row['STANDARD PEMBELAJARAN (SP)'] || row['STANDARD PEMBELAJARAN'] || row['SP'] || '').trim();
+                const kelas = getColVal(row, ['Kelas', 'KELAS', 'Class', 'Nama Kelas']).toUpperCase() || 'INOVATIF';
+                const subjek = getColVal(row, ['Subjek', 'SUBJEK', 'Mata Pelajaran', 'MATA PELAJARAN', 'Subject']).toUpperCase() || 'PENDIDIKAN JASMANI';
 
-                // Auto register subject into customSubjects list if new
+                // Curriculum Details
+                const tema = getColVal(row, ['Tema', 'TEMA', 'Theme']) || 'ASAS';
+                const bidang = getColVal(row, ['Tajuk', 'TAJUK', 'Bidang', 'BIDANG', 'Topic', 'Unit']) || 'UMUM';
+                const sk = getColVal(row, ['Standard Kandungan (SK)', 'Standard Kandungan', 'SK']) || 'SK Standard';
+                const rawSp = getColVal(row, ['Standard Pembelajaran (SP)', 'Standard Pembelajaran', 'SP', 'Kod SP']);
+                const fasa = getColVal(row, ['Fasa', 'FASA', 'Fasa Penilaian', 'Penggal']).toUpperCase() || 'PERTENGAHAN TAHUN';
+
+                const tpValRaw = getColVal(row, ['TP', 'Tahap Penguasaan', 'Tahap', 'Nilai TP']);
+                const markahRaw = getColVal(row, ['Markah', 'MARKAH', 'Markah Ujian', 'Score']);
+
+                // Auto Register Subject
                 if (subjek && !appData.customSubjects.includes(subjek)) {
                     appData.customSubjects.push(subjek);
                 }
 
-                // 1. Update Student Database if name present
-                if (nama && tahun && kelas) {
-                    let student = appData.students.find(s => s.name.toUpperCase() === nama.toUpperCase() && s.tahun === tahun && s.kelas === kelas);
-
+                // Register Student
+                let student = null;
+                if (nama) {
+                    const cleanNama = nama.toUpperCase();
+                    student = appData.students.find(s => s.name === cleanNama && String(s.tahun) === String(tahun) && s.kelas === kelas);
                     if (!student) {
                         student = {
-                            id: 'm_' + Date.now() + '_' + Math.floor(Math.random()*1000),
-                            name: nama.toUpperCase(),
+                            id: 'm_' + Date.now() + '_' + Math.floor(Math.random()*10000),
+                            name: cleanNama,
                             tahun: tahun,
                             kelas: kelas
                         };
                         appData.students.push(student);
-                        updatedStudentsCount++;
+                        newStudentsCount++;
                     }
                 }
 
-                // 2. Update Curriculum Database if SP present
-                if (subjek && tahun && sp) {
+                // Register Curriculum SP
+                let spObj = null;
+                if (subjek && tahun && rawSp) {
                     if (!appData.curriculum[subjek]) appData.curriculum[subjek] = {};
                     if (!appData.curriculum[subjek][tahun]) appData.curriculum[subjek][tahun] = [];
 
                     const curList = appData.curriculum[subjek][tahun];
-                    
-                    // Improved SP Code detection (Handles formats like "1.1.1 Melakukan...", "SP 1.1.1", "1.1.2")
                     let code = "";
-                    const spMatchWithPrefix = sp.match(/SP\s*(\d+(\.\d+)*)/i);
-                    const spMatchNumberOnly = sp.match(/^(\d+(\.\d+)+)/);
+                    let desc = rawSp;
+
+                    const spMatchWithPrefix = rawSp.match(/^(SP\s*\d+(\.\d+)*)\s*(.*)/i);
+                    const spMatchNumberOnly = rawSp.match(/^(\d+(\.\d+)+)\s*(.*)/);
 
                     if (spMatchWithPrefix) {
-                        code = spMatchWithPrefix[0].toUpperCase();
+                        code = spMatchWithPrefix[1].toUpperCase().replace(/\s+/, ' ');
+                        desc = spMatchWithPrefix[3] || rawSp;
                     } else if (spMatchNumberOnly) {
                         code = `SP ${spMatchNumberOnly[1]}`;
+                        desc = spMatchNumberOnly[3] || rawSp;
                     } else {
                         code = `SP ${curList.length + 1}`;
+                        desc = rawSp;
                     }
 
-                    const exists = curList.some(item => item.desc === sp || item.code === code);
-                    if (!exists) {
-                        curList.push({
-                            id: 'sp_' + Date.now() + '_' + Math.floor(Math.random()*1000),
+                    desc = desc.replace(/^[-:\s\.,]+/, '').trim();
+                    if (!desc) desc = rawSp;
+
+                    const existsIdx = curList.findIndex(item => item.code === code);
+                    if (existsIdx === -1) {
+                        spObj = {
+                            id: 'sp_' + Date.now() + '_' + Math.floor(Math.random()*10000),
                             code: code,
-                            desc: sp,
-                            sk: sk || 'SK Standard',
+                            desc: desc,
+                            sk: sk,
                             bidang: bidang,
                             tema: tema
-                        });
+                        };
+                        curList.push(spObj);
+                        newSpCount++;
+                    } else {
+                        spObj = curList[existsIdx];
+                        if (desc) spObj.desc = desc;
+                        if (sk) spObj.sk = sk;
+                        if (bidang) spObj.bidang = bidang;
+                        if (tema) spObj.tema = tema;
+                    }
+                }
+
+                // Save TP Assessment / Markah
+                if (student && (tpValRaw || markahRaw)) {
+                    const key = `${student.id}_${subjek}_${fasa}`;
+                    if (!appData.assessments[key]) {
+                        appData.assessments[key] = { spScores: {}, markah: null };
+                    }
+
+                    const tpVal = parseInt(tpValRaw);
+                    if (spObj && !isNaN(tpVal) && tpVal >= 1 && tpVal <= 6) {
+                        appData.assessments[key].spScores[spObj.id] = tpVal;
+                    }
+
+                    const markahVal = parseFloat(markahRaw);
+                    if (!isNaN(markahVal)) {
+                        appData.assessments[key].markah = markahVal;
                     }
                 }
             });
 
-            // Refresh Subjek Select Dropdown if new subjects detected
             updateSubjekDropdownOptions();
             saveAllDataToLocal();
             updateUI();
         }
 
         function addNewSubjekModal() {
-            const newSubjekInput = prompt("Masukkan Nama Subjek / Mata Pelajaran Baru (Contoh: PENDIDIKAN JASMANI, BAHASA ARAB, PENDIDIKAN MUZIK):");
+            const newSubjekInput = prompt("Masukkan Nama Subjek / Mata Pelajaran Baru:");
             if (!newSubjekInput || !newSubjekInput.trim()) return;
 
             const subjekClean = newSubjekInput.trim().toUpperCase();
@@ -808,7 +956,6 @@ PBD SK Bukit Kuchai
             saveAllDataToLocal();
             updateSubjekDropdownOptions();
 
-            // Set current active subject filter to newly added subject
             const subjekSelect = document.getElementById('filterSubjek');
             subjekSelect.value = subjekClean;
             handleFilterChange();
@@ -821,12 +968,12 @@ PBD SK Bukit Kuchai
             const currentSelected = subjekSelect.value;
             
             const defaultSubjects = [
+                "PENDIDIKAN JASMANI",
                 "BAHASA MELAYU", 
                 "BAHASA INGGERIS", 
                 "MATEMATIK", 
                 "SAINS", 
                 "PENDIDIKAN ISLAM", 
-                "PENDIDIKAN JASMANI", 
                 "PENDIDIKAN KESIHATAN", 
                 "PENDIDIKAN MORAL", 
                 "PENDIDIKAN SENI VISUAL", 
@@ -851,6 +998,60 @@ PBD SK Bukit Kuchai
             });
         }
 
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-magenta-600', 'text-white', 'shadow-sm');
+                btn.classList.add('text-gray-700', 'hover:bg-pink-200');
+            });
+
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+                targetTab.classList.add('block');
+            }
+
+            const targetBtn = document.getElementById('btn-' + tabId);
+            if (targetBtn) {
+                targetBtn.classList.remove('text-gray-700', 'hover:bg-pink-200');
+                targetBtn.classList.add('bg-magenta-600', 'text-white', 'shadow-sm');
+            }
+
+            if (tabId === 'tab-report') {
+                generatePrintReport();
+            }
+        }
+
+        function getCurrentSPs() {
+            const filter = getFilters();
+            if (appData.curriculum && appData.curriculum[filter.subjek] && appData.curriculum[filter.subjek][filter.tahun]) {
+                return appData.curriculum[filter.subjek][filter.tahun] || [];
+            }
+            return [];
+        }
+
+        function getFilteredStudents() {
+            const filter = getFilters();
+            return (appData.students || [])
+                .filter(s => String(s.tahun) === String(filter.tahun) && s.kelas === filter.kelas)
+                .sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        function calculateOverallTP(studentId, subjek, fasa) {
+            const key = `${studentId}_${subjek}_${fasa}`;
+            const assessment = appData.assessments ? appData.assessments[key] : null;
+            if (!assessment || !assessment.spScores) return 0;
+
+            const scores = Object.values(assessment.spScores).filter(v => typeof v === 'number' && v > 0);
+            if (scores.length === 0) return 0;
+
+            const sum = scores.reduce((acc, curr) => acc + curr, 0);
+            return Math.round(sum / scores.length);
+        }
+
         function getFilters() {
             return {
                 tahun: document.getElementById('filterTahun').value,
@@ -861,33 +1062,96 @@ PBD SK Bukit Kuchai
         }
 
         function handleFilterChange() {
+            resetAssessmentFilters(false);
             updateUI();
         }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
+        function populateAssessmentDropdowns() {
+            const allSPs = getCurrentSPs();
 
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-magenta-600', 'text-white', 'shadow-sm');
-                btn.classList.add('text-gray-700');
-            });
+            const selTema = document.getElementById('filterAssessmentTema');
+            const selTajuk = document.getElementById('filterAssessmentTajuk');
+            const selSK = document.getElementById('filterAssessmentSK');
+            const selSP = document.getElementById('filterAssessmentSP');
 
-            const activeBtn = document.getElementById('btn-' + tabId);
-            if (activeBtn) {
-                activeBtn.classList.add('bg-magenta-600', 'text-white', 'shadow-sm');
-                activeBtn.classList.remove('text-gray-700');
+            if (!selTema || !selTajuk || !selSK || !selSP) return;
+
+            const temas = Array.from(new Set(allSPs.map(s => s.tema).filter(Boolean)));
+            selTema.innerHTML = '<option value="ALL">-- Semua Tema --</option>' + 
+                temas.map(t => `<option value="${t}" ${assessmentFilters.tema === t ? 'selected' : ''}>${t}</option>`).join('');
+
+            let filteredByTema = allSPs;
+            if (assessmentFilters.tema !== 'ALL') {
+                filteredByTema = allSPs.filter(s => s.tema === assessmentFilters.tema);
             }
 
-            if (tabId === 'tab-dashboard') renderCharts();
-            if (tabId === 'tab-report') generatePrintReport();
+            const tajuks = Array.from(new Set(filteredByTema.map(s => s.bidang).filter(Boolean)));
+            selTajuk.innerHTML = '<option value="ALL">-- Semua Tajuk / Bidang --</option>' + 
+                tajuks.map(t => `<option value="${t}" ${assessmentFilters.tajuk === t ? 'selected' : ''}>${t}</option>`).join('');
+
+            let filteredByTajuk = filteredByTema;
+            if (assessmentFilters.tajuk !== 'ALL') {
+                filteredByTajuk = filteredByTema.filter(s => s.bidang === assessmentFilters.tajuk);
+            }
+
+            const sks = Array.from(new Set(filteredByTajuk.map(s => s.sk).filter(Boolean)));
+            selSK.innerHTML = '<option value="ALL">-- Semua Standard Kandungan (SK) --</option>' + 
+                sks.map(sk => `<option value="${sk}" ${assessmentFilters.sk === sk ? 'selected' : ''}>${sk}</option>`).join('');
+
+            let filteredBySK = filteredByTajuk;
+            if (assessmentFilters.sk !== 'ALL') {
+                filteredBySK = filteredByTajuk.filter(s => s.sk === assessmentFilters.sk);
+            }
+
+            selSP.innerHTML = '<option value="ALL">-- Semua Standard Pembelajaran (SP) --</option>' + 
+                filteredBySK.map(sp => `<option value="${sp.id}" ${assessmentFilters.sp === sp.id ? 'selected' : ''}>${sp.code} - ${sp.desc.substring(0, 45)}...</option>`).join('');
+        }
+
+        function handleAssessmentFilterChange(changedLevel) {
+            const selTema = document.getElementById('filterAssessmentTema');
+            const selTajuk = document.getElementById('filterAssessmentTajuk');
+            const selSK = document.getElementById('filterAssessmentSK');
+            const selSP = document.getElementById('filterAssessmentSP');
+
+            if (changedLevel === 'tema') {
+                assessmentFilters.tema = selTema.value;
+                assessmentFilters.tajuk = 'ALL';
+                assessmentFilters.sk = 'ALL';
+                assessmentFilters.sp = 'ALL';
+            } else if (changedLevel === 'tajuk') {
+                assessmentFilters.tajuk = selTajuk.value;
+                assessmentFilters.sk = 'ALL';
+                assessmentFilters.sp = 'ALL';
+            } else if (changedLevel === 'sk') {
+                assessmentFilters.sk = selSK.value;
+                assessmentFilters.sp = 'ALL';
+            } else if (changedLevel === 'sp') {
+                assessmentFilters.sp = selSP.value;
+            }
+
+            populateAssessmentDropdowns();
+            renderAssessmentGrid();
+        }
+
+        function resetAssessmentFilters(shouldRender = true) {
+            assessmentFilters = { tema: 'ALL', tajuk: 'ALL', sk: 'ALL', sp: 'ALL' };
+            populateAssessmentDropdowns();
+            if (shouldRender) renderAssessmentGrid();
+        }
+
+        function getFilteredSPsForAssessment() {
+            let sps = getCurrentSPs();
+            if (assessmentFilters.tema !== 'ALL') sps = sps.filter(s => s.tema === assessmentFilters.tema);
+            if (assessmentFilters.tajuk !== 'ALL') sps = sps.filter(s => s.bidang === assessmentFilters.tajuk);
+            if (assessmentFilters.sk !== 'ALL') sps = sps.filter(s => s.sk === assessmentFilters.sk);
+            if (assessmentFilters.sp !== 'ALL') sps = sps.filter(s => s.id === assessmentFilters.sp);
+            return sps;
         }
 
         function updateUI() {
             const filter = getFilters();
             const isTahap2 = parseInt(filter.tahun) >= 4;
 
-            // Update Badge
             const badge = document.getElementById('levelBadge');
             badge.innerHTML = isTahap2 
                 ? `<i class="fa-solid fa-layer-group mr-1"></i> Tahap 2 (Markah Aktif)` 
@@ -896,19 +1160,17 @@ PBD SK Bukit Kuchai
                 ? "px-3 py-1.5 rounded-full text-xs font-bold bg-purple-100 text-purple-700 border border-purple-300"
                 : "px-3 py-1.5 rounded-full text-xs font-bold bg-pink-100 text-pink-700 border border-pink-300";
 
-            // Update Markah Columns Visibility
             document.querySelectorAll('.markah-col').forEach(col => {
                 if (isTahap2) col.classList.remove('hidden');
                 else col.classList.add('hidden');
             });
 
-            // Target displays for student mgmt
             document.getElementById('targetTahunDisplay').value = `Tahun ${filter.tahun}`;
             document.getElementById('targetKelasDisplay').value = filter.kelas;
             document.getElementById('mgmtClassLabel').innerText = `Tahun ${filter.tahun} ${filter.kelas}`;
             document.getElementById('quickTableTitle').innerText = `Tahun ${filter.tahun} ${filter.kelas} - ${filter.subjek}`;
 
-            // Render Views
+            populateAssessmentDropdowns();
             renderQuickOverviewTable();
             renderAssessmentGrid();
             renderStudentManagementTable();
@@ -916,63 +1178,23 @@ PBD SK Bukit Kuchai
             populateReportStudentSelect();
         }
 
-        // Get Filtered & Sorted Student List (A-Z)
-        function getFilteredStudents() {
-            const filter = getFilters();
-            return appData.students
-                .filter(s => s.tahun === filter.tahun && s.kelas === filter.kelas)
-                .sort((a, b) => a.name.localeCompare(b.name));
-        }
-
-        // Get Current SPs for Subjek & Tahun
-        function getCurrentSPs() {
-            const filter = getFilters();
-            if (appData.curriculum[filter.subjek] && appData.curriculum[filter.subjek][filter.tahun]) {
-                return appData.curriculum[filter.subjek][filter.tahun];
-            }
-            // Fallback default
-            return (DEFAULT_CURRICULUM["BAHASA MELAYU"]["1"]);
-        }
-
-        // Helper: Calculate Overall TP summary for student
-        function calculateOverallTP(studentId, subjek, fasa) {
-            const key = `${studentId}_${subjek}_${fasa}`;
-            const record = appData.assessments[key];
-            if (!record || !record.spScores) return 0;
-
-            const sps = getCurrentSPs();
-            let sum = 0;
-            let count = 0;
-
-            sps.forEach(sp => {
-                const score = record.spScores[sp.id];
-                if (score && score > 0) {
-                    sum += score;
-                    count++;
-                }
-            });
-
-            if (count === 0) return 0;
-            return Math.round(sum / count);
-        }
-
         function renderAssessmentGrid() {
             const students = getFilteredStudents();
-            const sps = getCurrentSPs();
+            const sps = getFilteredSPsForAssessment();
             const filter = getFilters();
             const isTahap2 = parseInt(filter.tahun) >= 4;
 
-            // Render SP Table Headers
             const headerContainer = document.getElementById('spHeaderContainer');
             if (sps.length === 0) {
-                headerContainer.innerHTML = `<div class="p-2 text-center text-gray-400 italic">Tiada SP didaftarkan bagi subjek/tahun ini. Sila tambah SP secara manual atau kemaskini Google Sheet.</div>`;
+                headerContainer.innerHTML = `<div class="p-2 text-center text-gray-400 italic">Tiada SP ditemui untuk penapis terpilih. Sila tukar penapis Tema/Tajuk/SK/SP.</div>`;
             } else {
                 let headersHTML = `<div class="grid grid-cols-${sps.length} divide-x divide-pink-300">`;
                 sps.forEach(sp => {
                     headersHTML += `
-                        <div class="p-2 text-center text-2xs font-bold text-pink-900 min-w-[130px]">
-                            <div class="text-magenta-700 font-extrabold">${sp.code}</div>
-                            <div class="truncate text-[10px] text-gray-600" title="${sp.desc}">${sp.desc}</div>
+                        <div class="p-2 text-center text-2xs font-bold text-pink-900 min-w-[140px]">
+                            <div class="text-magenta-700 font-extrabold text-xs">${sp.code}</div>
+                            <div class="truncate text-[10px] text-gray-700 font-semibold" title="${sp.sk}">${sp.sk}</div>
+                            <div class="truncate text-[9px] text-gray-500 font-normal" title="${sp.desc}">${sp.desc}</div>
                         </div>
                     `;
                 });
@@ -980,16 +1202,11 @@ PBD SK Bukit Kuchai
                 headerContainer.innerHTML = headersHTML;
             }
 
-            // Render Info Banner
-            if (sps.length > 0) {
-                document.getElementById('lblTemaBidang').innerText = `${sps[0].tema} / ${sps[0].bidang} (${sps[0].sk})`;
-                document.getElementById('lblTotalSP').innerText = `${sps.length} SP`;
-            } else {
-                document.getElementById('lblTemaBidang').innerText = `-`;
-                document.getElementById('lblTotalSP').innerText = `0 SP`;
-            }
+            document.getElementById('lblTema').innerText = assessmentFilters.tema !== 'ALL' ? assessmentFilters.tema : 'Semua Tema';
+            document.getElementById('lblBidang').innerText = assessmentFilters.tajuk !== 'ALL' ? assessmentFilters.tajuk : 'Semua Tajuk / Bidang';
+            document.getElementById('lblSK').innerText = assessmentFilters.sk !== 'ALL' ? assessmentFilters.sk : 'Semua Standard Kandungan';
+            document.getElementById('lblTotalSP').innerText = `${sps.length} SP`;
 
-            // Render Rows
             const tbody = document.getElementById('assessmentTbody');
             tbody.innerHTML = '';
 
@@ -1014,12 +1231,11 @@ PBD SK Bukit Kuchai
                 `;
 
                 if (sps.length === 0) {
-                    html += `<div class="p-2 text-center text-gray-400 text-xs italic">Sila tambah SP dahulu</div>`;
+                    html += `<div class="p-2 text-center text-gray-400 text-xs italic">Sila pilih penapis SP lain</div>`;
                 } else {
-                    // SP Radio Boxes
                     sps.forEach(sp => {
                         const currentVal = assessment.spScores[sp.id] || 0;
-                        html += `<div class="p-2 flex flex-wrap justify-center gap-1 min-w-[130px]">`;
+                        html += `<div class="p-2 flex flex-wrap justify-center gap-1 min-w-[140px]">`;
                         for (let tp = 1; tp <= 6; tp++) {
                             const isChecked = currentVal === tp;
                             html += `
@@ -1268,7 +1484,6 @@ PBD SK Bukit Kuchai
             const students = getFilteredStudents();
             const isTahap2 = parseInt(filter.tahun) >= 4;
 
-            // Stat totals
             document.getElementById('statTotalStudents').innerText = students.length;
             document.getElementById('statClassInfo').innerText = `Tahun ${filter.tahun} ${filter.kelas}`;
             document.getElementById('chartLabelSub').innerText = `${filter.subjek} (${filter.fasa})`;
@@ -1297,12 +1512,10 @@ PBD SK Bukit Kuchai
                 }
             });
 
-            // Minimum mastery rate (TP3+)
             const evaluatedCount = students.length - tpCounts.unassigned;
             const passRate = evaluatedCount > 0 ? Math.round((totalPassed / evaluatedCount) * 100) : 0;
             document.getElementById('statPassRate').innerText = `${passRate}%`;
 
-            // Mode TP
             let maxCount = -1;
             let modeTP = '-';
             for (let tp = 1; tp <= 6; tp++) {
@@ -1313,7 +1526,6 @@ PBD SK Bukit Kuchai
             }
             document.getElementById('statModeTP').innerText = modeTP;
 
-            // Avg Markah
             if (isTahap2 && markahCount > 0) {
                 const avg = (sumMarkah / markahCount).toFixed(1);
                 document.getElementById('statAvgMarkah').innerText = `${avg}%`;
@@ -1323,7 +1535,6 @@ PBD SK Bukit Kuchai
                 document.getElementById('statMarkahSub').innerText = isTahap2 ? 'Tiada markah diisi' : 'Hanya Tahap 2';
             }
 
-            // Render Chart.js Bar Chart
             const ctxBar = document.getElementById('tpBarChart').getContext('2d');
             if (barChartInstance) barChartInstance.destroy();
 
@@ -1335,12 +1546,12 @@ PBD SK Bukit Kuchai
                         label: 'Bilangan Murid',
                         data: [tpCounts[1], tpCounts[2], tpCounts[3], tpCounts[4], tpCounts[5], tpCounts[6]],
                         backgroundColor: [
-                            '#f87171', // TP1 Red
-                            '#fb923c', // TP2 Orange
-                            '#facc15', // TP3 Yellow
-                            '#60a5fa', // TP4 Blue
-                            '#a78bfa', // TP5 Purple
-                            '#34d399'  // TP6 Green
+                            '#f87171',
+                            '#fb923c',
+                            '#facc15',
+                            '#60a5fa',
+                            '#a78bfa',
+                            '#34d399'
                         ],
                         borderRadius: 8
                     }]
@@ -1348,19 +1559,11 @@ PBD SK Bukit Kuchai
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1 }
-                        }
-                    }
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
                 }
             });
 
-            // Render Chart.js Donut/Pie Chart
             const ctxPie = document.getElementById('tpPieChart').getContext('2d');
             if (pieChartInstance) pieChartInstance.destroy();
 
@@ -1380,9 +1583,7 @@ PBD SK Bukit Kuchai
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
+                    plugins: { legend: { position: 'bottom' } }
                 }
             });
         }
@@ -1426,14 +1627,12 @@ PBD SK Bukit Kuchai
                 reportCard.className = `p-6 bg-white border border-pink-200 rounded-xl space-y-4 ${idx > 0 ? 'page-break mt-6' : ''}`;
 
                 let html = `
-                    <!-- Header Sekolah -->
                     <div class="text-center border-b border-gray-300 pb-4">
                         <h2 class="text-lg font-black tracking-wide text-gray-900">SEKOLAH KEBANGSAAN BUKIT KUCHAI</h2>
                         <p class="text-xs text-gray-600 font-semibold">LAPORAN REKOD PERKEMBANGAN MURID (PBD)</p>
                         <p class="text-2xs uppercase tracking-widest text-pink-700 font-bold mt-1">FASA PENILAIAN: ${filter.fasa}</p>
                     </div>
 
-                    <!-- Maklumat Murid -->
                     <div class="grid grid-cols-2 text-xs gap-2 bg-pink-50/50 p-3 rounded-lg border border-pink-100 font-semibold text-gray-700">
                         <div><span class="text-gray-500">NAMA MURID:</span> <strong class="text-gray-900">${st.name}</strong></div>
                         <div><span class="text-gray-500">SUBJEK:</span> <strong class="text-pink-800">${filter.subjek}</strong></div>
@@ -1441,7 +1640,6 @@ PBD SK Bukit Kuchai
                         <div><span class="text-gray-500">TARIKH CETAKAN:</span> <strong>${new Date().toLocaleDateString('ms-MY')}</strong></div>
                     </div>
 
-                    <!-- Jadual Standard Pembelajaran & TP -->
                     <table class="w-full text-xs text-left border-collapse border border-gray-300">
                         <thead>
                             <tr class="bg-gray-100 text-gray-800 font-bold text-2xs uppercase border-b border-gray-300">
@@ -1477,7 +1675,6 @@ PBD SK Bukit Kuchai
                         </tbody>
                     </table>
 
-                    <!-- Rumusan PBD & Markah -->
                     <div class="grid grid-cols-2 gap-4 pt-2">
                         <div class="p-3 bg-pink-100/60 border border-pink-300 rounded-lg text-center">
                             <p class="text-2xs font-bold text-gray-600 uppercase">Rumusan TP Keseluruhan</p>
@@ -1497,7 +1694,6 @@ PBD SK Bukit Kuchai
                         `}
                     </div>
 
-                    <!-- Tandatangan Ruang Cetak -->
                     <div class="grid grid-cols-2 pt-8 text-xs font-semibold text-gray-700 text-center">
                         <div>
                             <p>................................................</p>
@@ -1515,7 +1711,6 @@ PBD SK Bukit Kuchai
             });
         }
 
-        // Export/Reset Utilities
         function exportDataJSON() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
             const downloadAnchor = document.createElement('a');
@@ -1528,13 +1723,12 @@ PBD SK Bukit Kuchai
 
         function resetDataToDefault() {
             if (confirm("Adakah anda pasti mahu meriset semua data ke asal? Sila buat salinan dahulu.")) {
-                localStorage.removeItem('sk_bukit_kuchai_pbd_data_v2');
+                localStorage.removeItem('sk_bukit_kuchai_pbd_data_v3');
                 appData = {
                     students: INITIAL_STUDENTS,
                     assessments: {},
                     curriculum: DEFAULT_CURRICULUM
                 };
-                seedDummyAssessments();
                 updateUI();
                 showToast("Data telah direset semula.");
             }
